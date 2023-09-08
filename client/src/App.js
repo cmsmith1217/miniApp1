@@ -1,24 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import Movies from "./Movies";
 
 function App() {
 
-  const movies = [
-    {title: 'Mean Girls'},
-    {title: 'Hackers'},
-    {title: 'The Grey'},
-    {title: 'Sunshine'},
-    {title: 'Ex Machina'},
-  ];
-
   return (
-    <div className="App">
-      <h2>Movie List</h2>
-      <ul>{movies.map((movie) => (
-        <li>Title: {movie.title}</li>
-      ))}</ul>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/movies" element={<Movies/>}/>
+      </Routes>
+    </Router>
   );
+
 }
 
 export default App;
