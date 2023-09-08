@@ -25,7 +25,7 @@ function Movies() {
         console.log('movies:', movies)
         fetchMovies();
         
-    },[searchName, movies.length])
+    },[searchName])
 
     function reFetchMovies() {
         const fetchMovies = async () => {
