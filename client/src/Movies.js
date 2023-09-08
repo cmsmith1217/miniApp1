@@ -5,7 +5,6 @@ function Movies() {
     const [searchName, setSearchName] = useState('');
     const [entryInputName, setEntryInputName] = useState('');
     const [entryInputDesc, setEntryInputDesc] = useState('');
-    const [idToDelete, setIdToDelete] = useState(0);
 
     // const url = "http://localhost:3001/movies";
     // const url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
@@ -64,9 +63,10 @@ function Movies() {
         reFetchMovies()
     }
 
-    const deleteEntry = async () => {
+    const deleteEntry = async (idArg) => {
+        console.log('arg', idArg)
         console.log('deleting entry')
-        await fetch(`http://localhost:3001/movies?id=${idToDelete}`, {
+        await fetch(`http://localhost:3001/movies?id=${idArg}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -92,8 +92,7 @@ function Movies() {
                     <button id={`haveWatchedToggle${movie.id}`} value={movie.haveWatched}>Toggle Watched</button>
                     <button id={`toWatchToggle${movie.id}`} value={movie.toWatch}>Toggle To Watch</button>
                     <button id={`Delete${movie.id}`} value={movie.id} onClick={(e) => {
-                        setIdToDelete(e.target.value)
-                        deleteEntry();
+                        deleteEntry(e.target.value);
                     }}>DELETE</button>
                 </div>
                 ))}
