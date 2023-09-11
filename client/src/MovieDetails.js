@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Movies() {
+function MovieDetails() {
     const [movies, setMovies] = useState([]);
     const [searchName, setSearchName] = useState('');
     const [entryInputName, setEntryInputName] = useState('');
@@ -16,12 +16,12 @@ function Movies() {
             : "http://localhost:3001/movies";
 
         const fetchMovies = async () => {
-            // console.log(url)
+            console.log(url)
             await fetch(url)
             .then((response) => response.json())
             .then((movieData) => setMovies(movieData))
         }
-        // console.log('movies:', movies)
+        console.log('movies:', movies)
         fetchMovies();
         
     },[searchName])
@@ -47,7 +47,7 @@ function Movies() {
 
     //************ ENTRY POST FUNCTIONALITY  **************//
     const newEntry = async () => {
-        // console.log('posting new entry')
+        console.log('posting new entry')
         await fetch("http://localhost:3001/movies", {
             method: "POST",
             headers: {
@@ -64,8 +64,8 @@ function Movies() {
     }
 
     const deleteEntry = async (idArg) => {
-        // console.log('arg', idArg)
-        // console.log('deleting entry')
+        console.log('arg', idArg)
+        console.log('deleting entry')
         await fetch(`http://localhost:3001/movies?id=${idArg}`, {
             method: "DELETE",
             headers: {
@@ -73,50 +73,6 @@ function Movies() {
             }
         })
         reFetchMovies()
-    }
-
-    const toggleHaveWatched = async (idArg, status) => {
-        if(status == 'false') {
-            status = true
-        } else {
-            status = false
-        }
-        console.log('toggle arg', idArg)
-        console.log('status', status)
-        await fetch(`http://localhost:3001/movies/${idArg}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "haveWatched": status
-            })
-        })
-        console.log('toggle arg', idArg)
-        console.log('status', status)    
-        reFetchMovies()   
-    }
-
-    const toggleToWatch = async (idArg, status) => {
-        if(status == 'false') {
-            status = true
-        } else {
-            status = false
-        }
-        console.log('toggle arg', idArg)
-        console.log('status', status)
-        await fetch(`http://localhost:3001/movies/${idArg}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "toWatch": status
-            })
-        })
-        console.log('toggle arg', idArg)
-        console.log('status', status)    
-        reFetchMovies()   
     }
     // const handleSearchSubmit = () => {
     //     movies.filter
@@ -133,11 +89,8 @@ function Movies() {
                 {movies.map((movie) => (
                 <div>
                     <li>{movie.name}: {movie.description}</li>
-                    <button id={`${movie.id}`} class="haveWatched" value={movie.haveWatched} onClick={(e) => {
-                        console.log('log the value', e.target.value)
-                        toggleHaveWatched(e.target.id, (e.target.value))}}>Toggle Watched</button>
-                    <button id={`${movie.id}`} class="toWatch" value={movie.toWatch} onClick={(e) => {
-                        toggleToWatch(e.target.id, (e.target.value))}}>Toggle To Watch</button>
+                    <button id={`haveWatchedToggle${movie.id}`} value={movie.haveWatched}>Toggle Watched</button>
+                    <button id={`toWatchToggle${movie.id}`} value={movie.toWatch}>Toggle To Watch</button>
                     <button id={`Delete${movie.id}`} value={movie.id} onClick={(e) => {
                         deleteEntry(e.target.value);
                     }}>DELETE</button>
@@ -156,4 +109,4 @@ function Movies() {
     )}
 }
 
-export default Movies;
+export default MovieDetails;
